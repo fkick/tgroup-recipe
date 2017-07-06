@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads latest Call Recorder for Skype installer, packages it, and imports it into Munki.
+
+Note: CUSTOMER_EMAIL and REG_CODE _must_ be overridden in order for this recipe to work.
+
+Log in to your Ecamm customer center and inspect the URL for these values:
+- The CUSTOMER_EMAIL is the "u" parameter. It's your customer email address, URL-encoded.
+- The REG_CODE is the "c" parameter, a six-character string.
+
+Example (spaces added for clarity):
+https://www.ecamm.com/cgi-bin/customercenter ? u=john%2Edoe%40example%2Ecom &amp; c=XYZ123</string>
+	<key>Identifier</key>
+	<string>com.github.fkick.tgroup-recipe.munki.CallRecorderforSkype</string>
+	<key>Input</key>
+	<dict>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>plugins/ecamm</string>
+		<key>NAME</key>
+		<string>CallRecorderforFacetime</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>blocking_applications</key>
+			<array>
+				<string>FaceTime</string>
+			</array>
+			<key>catalogs</key>
+			<array>
+				<string>testing</string>
+			</array>
+			<key>category</key>
+			<string>Utility</string>
+			<key>description</key>
+			<string>Record your FaceTime calls directly to your Mac.</string>
+			<key>developer</key>
+			<string>Ecamm</string>
+			<key>display_name</key>
+			<string>Call Recorder for FaceTime</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>requires</key>
+			<array>
+				<string>FaceTime</string>
+			</array>
+		</dict>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>0.2.0</string>
+	<key>ParentRecipe</key>
+	<string>com.github.fkick.tgroup-recipe.pkg.CallRecorderforFacetime</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+		</dict>
+	</array>
+</dict>
+</plist>

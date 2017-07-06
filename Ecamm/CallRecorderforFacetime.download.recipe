@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads latest Call Recorder for Skype installer.
+
+Note: CUSTOMER_EMAIL and REG_CODE _must_ be overridden in order for this recipe to work.
+
+Log in to your Ecamm customer center and inspect the URL for these values:
+- The CUSTOMER_EMAIL is the "u" parameter. It's your customer email address, URL-encoded.
+- The REG_CODE is the "c" parameter, a six-character string.
+
+Example (spaces added for clarity):
+https://www.ecamm.com/cgi-bin/customercenter ? u=john%2Edoe%40example%2Ecom &amp; c=XYZ123</string>
+	<key>Identifier</key>
+	<string>com.github.fkick.tgroup-recipe.download.CallRecorderforFacetime</string>
+	<key>Input</key>
+	<dict>
+		<key>CUSTOMER_EMAIL</key>
+		<string>john%2Edoe%40example%2Ecom</string>
+		<key>REG_CODE</key>
+		<string>XYZ123</string>
+		<key>NAME</key>
+		<string>CallRecorderforFacetime</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>0.2.0</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>predicate</key>
+				<string>CUSTOMER_EMAIL CONTAINS "40example"</string>
+			</dict>
+			<key>Processor</key>
+			<string>StopProcessingIf</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>predicate</key>
+				<string>REG_CODE == "XYZ123"</string>
+			</dict>
+			<key>Processor</key>
+			<string>StopProcessingIf</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>re_pattern</key>
+				<string>p=callrecorderft&amp;format=zip&amp;a=\/CallRecorderFT([\d\.]+).zip</string>
+				<key>result_output_var_name</key>
+				<string>version</string>
+				<key>url</key>
+				<string>https://www.ecamm.com/cgi-bin/customercenter?u=%CUSTOMER_EMAIL%&amp;c=%REG_CODE%</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLTextSearcher</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>http://cdn.ecamm.com/cgi-bin/downloadreg?c=%REG_CODE%&amp;email=%CUSTOMER_EMAIL%&amp;p=callrecorderft&amp;format=zip&amp;a=/CallRecorderFT%version%.zip</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/unarchive</string>
+				<key>purge_destination</key>
+				<true/>
+			</dict>
+			<key>Processor</key>
+			<string>Unarchiver</string>
+		</dict>
+	</array>
+</dict>
+</plist>
