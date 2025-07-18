@@ -24,6 +24,10 @@
             <string>Sony Catalyst Browse</string>
             <key>name</key>
             <string>%NAME%</string>
+            <key>category</key>
+            <string>DIT</string>
+            <key>developer</key>
+            <string>Sony</string>
             <key>unattended_install</key>
             <true/>
         </dict>
@@ -31,22 +35,16 @@
     <key>MinimumVersion</key>
     <string>0.2.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.fkick.tgroup-recipe.pkg.catalystbrowse</string>
+    <string>com.github.fkick.tgroup-recipe.download.catalystbrowse</string>
     <key>Process</key>
     <array>
-        <dict>
-            <key>Processor</key>
-            <string>MunkiPkginfoMerger</string>
-        </dict>
-        <dict>
+       <dict>
             <key>Arguments</key>
             <dict>
                 <key>pkg_path</key>
-                <string>%RECIPE_CACHE_DIR%/Catalyst Browse.pkg</string>
+                <string>%pathname%</string>
                 <key>repo_subdirectory</key>
                 <string>%MUNKI_REPO_SUBDIR%</string>
-                <key>version_comparison_key</key>
-                <string>CFBundleVersion</string>
             </dict>
             <key>Processor</key>
             <string>MunkiImporter</string>
